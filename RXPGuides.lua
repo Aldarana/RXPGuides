@@ -669,18 +669,20 @@ updateFrame:SetScript("OnUpdate", function(self, diff)
             elseif RXP_.updateStepText then
                 RXP_.updateStepText = false
                 local updateText
-                -- TODO handle error if active guide no longer exists
-                local steps = RXP_.currentGuide.steps
-                for n in pairs(RXP_.stepUpdateList) do
-                    if steps[n] then
-                        if not updateText and steps[n].active then
-                            updateText = true
-                        end
-                        RXPFrame.BottomFrame.UpdateFrame(nil, nil, n)
-                        if not RXP_.updateStepText then
-                            RXP_.stepUpdateList[n] = nil
-                        end
-                    end
+                -- TODO handle error if active guide no longer exists\
+                if RXP_.currentGuide then
+                  local steps = RXP_.currentGuide.steps
+                  for n in pairs(RXP_.stepUpdateList) do
+                      if steps[n] then
+                          if not updateText and steps[n].active then
+                              updateText = true
+                          end
+                          RXPFrame.BottomFrame.UpdateFrame(nil, nil, n)
+                          if not RXP_.updateStepText then
+                              RXP_.stepUpdateList[n] = nil
+                          end
+                      end
+                  end
                 end
                 if updateText then
                     RXPFrame.CurrentStepFrame.UpdateText()
